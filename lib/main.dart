@@ -45,6 +45,14 @@ class _MyHomePageState extends State<MyHomePage> {
     "Eevee",
   ];
 
+  final List<String> habilidades = <String>[
+    "Overgrow",
+    "Blaze",
+    "Torrent",
+    "Static",
+    "Run Away, Adaptability",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,20 +61,18 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Container(
-        margin: const EdgeInsets.all(10),
         child: ListView.builder(
           itemBuilder: (context, index) {
             return Center(
               child: Container(
                 height: 250,
-                padding: const EdgeInsets.all(50),
+                padding: const EdgeInsets.all(20),
                 margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.redAccent.shade200,
                   border: Border.all(color: Colors.red.shade800, width: 2),
                   borderRadius: BorderRadius.circular(20),
                 ),
-
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,6 +95,37 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       ],
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      height: 70,
+                      padding: const EdgeInsets.all(20),
+                      margin: const EdgeInsets.only(top: 20),
+                      child: Row(
+                        spacing: 0,
+                        children: [
+                          const Text(
+                            'Habilidade(s):',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.blueGrey,
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Text(
+                            habilidades[index],
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.blueGrey,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
