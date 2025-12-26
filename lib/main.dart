@@ -52,33 +52,51 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return Center(
-            child: Container(
-              height: 200,
-              margin: const EdgeInsets.all(10),
-              color: Colors.redAccent.shade200,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 150,
-                    height: 150,
-                    child: Image.asset(
-                      'assets/images/${pokemons[index].toLowerCase()}.png',
+      body: Container(
+        margin: const EdgeInsets.all(10),
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            return Center(
+              child: Container(
+                height: 250,
+                padding: const EdgeInsets.all(50),
+                margin: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.redAccent.shade200,
+                  border: Border.all(color: Colors.red.shade800, width: 2),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: Image.asset(
+                            'assets/images/${pokemons[index].toLowerCase()}.png',
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        Text(
+                          pokemons[index],
+                          style: const TextStyle(
+                            fontSize: 24,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(width: 20),
-                  Text(
-                    pokemons[index],
-                    style: const TextStyle(fontSize: 24, color: Colors.white),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        },
-        itemCount: pokemons.length,
+            );
+          },
+          itemCount: pokemons.length,
+        ),
       ),
     );
   }
