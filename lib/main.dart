@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import 'models/album_model.dart';
+import 'services/album_service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,6 +41,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late Future<Album> futureAlbum;
+
+  @override
+  void initState() {
+    super.initState();
+    futureAlbum = fetchAlbum();
+  }
+
   final List<String> pokemons = [
     "Bulbasaur",
     "Charmander",
@@ -60,79 +72,19 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Container(
-        child: ListView.builder(
-          itemBuilder: (context, index) {
-            return Center(
-              child: Container(
-                height: 250,
-                padding: const EdgeInsets.all(20),
-                margin: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.redAccent.shade200,
-                  border: Border.all(color: Colors.red.shade800, width: 2),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 100,
-                          height: 100,
-                          child: Image.asset(
-                            'assets/images/${pokemons[index].toLowerCase()}.png',
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        Text(
-                          pokemons[index],
-                          style: const TextStyle(
-                            fontSize: 24,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      height: 70,
-                      padding: const EdgeInsets.all(20),
-                      margin: const EdgeInsets.only(top: 20),
-                      child: Row(
-                        spacing: 0,
-                        children: [
-                          const Text(
-                            'Habilidade(s):',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.blueGrey,
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          Text(
-                            habilidades[index],
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.blueGrey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
+      body: Center(
+        child: FutureBuilder<Album>(
+          future: futureAlbum,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text(snapshot.data!.title);
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+
+            // By default, show a loading spinner.
+            return const CircularProgressIndicator();
           },
-          itemCount: pokemons.length,
         ),
       ),
     );
