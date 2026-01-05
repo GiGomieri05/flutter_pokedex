@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:flutter_pokedex/models/pokemon_detail.dart';
-import 'package:flutter_pokedex/models/pokemon_list_response.dart';
+import 'package:flutter_pokedex/src/models/pokemon_detail.dart';
+import 'package:flutter_pokedex/src/models/pokemon_list_response.dart';
 import 'package:http/http.dart' as http;
 
 Future<PokemonListResponse> fetchPokemonList(int limit, int offset) async {

@@ -1,5 +1,5 @@
-import 'package:flutter_pokedex/models/pokemon_detail.dart';
-import 'package:flutter_pokedex/services/pokemon_service.dart';
+import 'package:flutter_pokedex/src/models/pokemon_detail.dart';
+import 'package:flutter_pokedex/src/services/pokemon_service.dart';
 
 class PokemonController {
   final int limit = 10;
