@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokedex/controllers/pokemon_controller.dart';
-import 'package:flutter_pokedex/models/pokemon_list_response.dart';
-import 'package:http/http.dart' as http;
-
-import 'models/pokemon_detail.dart';
-import 'services/pokemon_service.dart';
+import 'package:flutter_pokedex/models/pokemon_detail.dart';
 
 void main() {
   runApp(const MyApp());

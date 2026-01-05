@@ -12,7 +12,8 @@ class PokemonDetail {
   factory PokemonDetail.fromJson(Map<String, dynamic> json) {
     // extraindo os dados em variáveis intermediarias primeiro
     // pegar o nome
-    final name = json['name'] as String;
+    final rawName = json['name'] as String;
+    final name = rawName[0].toUpperCase() + rawName.substring(1);
 
     // pegar a lista de habilidades
     final abilitiesJson = json['abilities'] as List<dynamic>;
@@ -22,7 +23,8 @@ class PokemonDetail {
       // use ability e pegue o nome
       final aMap = ability as Map<String, dynamic>;
       final aInfo = aMap['ability'] as Map<String, dynamic>;
-      final s = aInfo['name'] as String;
+      final rawS = aInfo['name'] as String;
+      final s = rawS[0].toUpperCase() + rawS.substring(1);
 
       abilities.add(s);
     }

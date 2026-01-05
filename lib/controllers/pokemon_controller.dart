@@ -1,5 +1,4 @@
 import 'package:flutter_pokedex/models/pokemon_detail.dart';
-import 'package:flutter_pokedex/models/pokemon_list_item.dart';
 import 'package:flutter_pokedex/services/pokemon_service.dart';
 
 class PokemonController {
