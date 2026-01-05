@@ -1,5 +1,5 @@
-# Flutter Pokedex
+# Flutter Pokédex
 
-Um projeto simples de uma pokedex, desenvolvido em Flutter.
+### Um projeto simples de uma pokédex, desenvolvido em Flutter.
 
-Contém uma lista de 5 Pokemons com seus respectivos nomes, suas habilidades e uma imagem de cada pokemon.
+Puxa da PokéAPI os pokémons com seus respectivos nomes, suas habilidades e uma imagem de cada pokemon.
