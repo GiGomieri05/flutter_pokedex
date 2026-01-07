@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokedex/src/controllers/pokemon_controller.dart';
+import 'package:flutter_pokedex/src/controllers/starred_controller.dart';
 import 'package:flutter_pokedex/src/models/pokemon_detail.dart';
 
 void main() {
@@ -39,7 +40,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final PokemonController controller = PokemonController();
+  final PokemonController pokemonController = PokemonController();
+  final StarredController starredController = StarredController();
 
   @override
   void initState() {
@@ -50,14 +52,16 @@ class _MyHomePageState extends State<MyHomePage> {
   // initState nao pode ser async, entao dividi em um metodo separado
   // entra no lugar do FutureBuilder
   Future<void> _loadInitial() async {
-    await controller.loadNextPage();
+    await pokemonController.loadNextPage();
+    await starredController.loadStarred();
     if (mounted) setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     final itemCount =
-        controller.listaPokemons.length + (controller.hasMore ? 1 : 0);
+        pokemonController.listaPokemons.length +
+        (pokemonController.hasMore ? 1 : 0);
 
     return Scaffold(
       appBar: AppBar(
@@ -68,12 +72,12 @@ class _MyHomePageState extends State<MyHomePage> {
         itemCount: itemCount,
         itemBuilder: (BuildContext context, int index) {
           // ainda eh um pokemon
-          if (index < controller.listaPokemons.length) {
-            final pokemon = controller.listaPokemons[index];
+          if (index < pokemonController.listaPokemons.length) {
+            final pokemon = pokemonController.listaPokemons[index];
 
             // carrega mais ao chegar no fim
-            if (index == controller.listaPokemons.length - 1) {
-              controller.loadNextPage().then((_) {
+            if (index == pokemonController.listaPokemons.length - 1) {
+              pokemonController.loadNextPage().then((_) {
                 if (mounted) setState(() {});
               });
             }
@@ -91,6 +95,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildPokemonCard(PokemonDetail pokemon) {
+    final isStarred = starredController.isStarred(pokemon.name);
+
     return Center(
       child: Container(
         height: 250,
@@ -106,18 +112,38 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  width: 100,
-                  height: 100,
-                  child: pokemon.imageUrl != null
-                      ? Image.network(pokemon.imageUrl!)
-                      : const Icon(Icons.image_not_supported_rounded, size: 60),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: pokemon.imageUrl != null
+                          ? Image.network(pokemon.imageUrl!)
+                          : const Icon(
+                              Icons.image_not_supported_rounded,
+                              size: 60,
+                            ),
+                    ),
+                    const SizedBox(width: 20),
+                    Text(
+                      pokemon.name,
+                      style: const TextStyle(fontSize: 24, color: Colors.white),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 20),
-                Text(
-                  pokemon.name,
-                  style: const TextStyle(fontSize: 24, color: Colors.white),
+                IconButton(
+                  onPressed: () async {
+                    await starredController.toggle(pokemon.name);
+                    if (mounted) setState(() {});
+                  },
+                  icon: Icon(
+                    isStarred ? Icons.star : Icons.star_border,
+                    color: isStarred ? Colors.amber : Colors.grey.shade300,
+                    size: 30,
+                  ),
                 ),
               ],
             ),
